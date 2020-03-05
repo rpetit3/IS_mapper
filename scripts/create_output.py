@@ -202,11 +202,12 @@ class ISHit(object):
 
         # If both m and m+1 features are before the IS position,
         # then m will be closer to the IS and is the correct feature
-        elif features[m - 1][1] < isPosition and features[m][1] < isPosition:
-            return features[m][2]
+        if features[m][1] < isPosition:
+            # If its the first feature (m=0), use it, do not take the last feature (m=-1)
+            if features[m - 1][1] < isPosition or not m:
+                return features[m][2]
 
-        else:
-            return "2 - THIS SHOULDN'T HAPPEN!"
+        return "2 - THIS SHOULDN'T HAPPEN!"
 
     def findFeatureAfterPosition(self, features, isPosition, m):
         # If we are looking for the feature to the right of the
